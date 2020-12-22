@@ -3,6 +3,8 @@
 
 import numpy as np
 
+import torch 
+
 import warnings
 warnings.filterwarnings('ignore') # remove some scikit-image warnings
 
@@ -23,4 +25,12 @@ from monai.transforms import LoadNifti
 loader = LoadNifti(image_only=True)
 img_array = loader("Task05_Prostate/imagesTr/prostate_02.nii.gz")
 print(img_array.shape)
+
+# compose the transforms
+from monai.transforms import LoadNiftiD
+
+dict_loader = LoadNiftiD(keys=("image", "label"))
+data_dict = dict_loader({"image": "Task05_Prostate/imagesTr/prostate_02.nii.gz", 
+                         "label": "Task05_Prostate/labelsTr/prostate_02.nii.gz"})
+print(f"image shape: {data_dict['image'].shape}, \nlabel shape: {data_dict['label'].shape}")
 
